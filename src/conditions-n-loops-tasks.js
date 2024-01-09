@@ -256,8 +256,15 @@ function getIndexOf(str, letter) {
  *  12345, 0    => false
  *  12345, 6    => false
  */
-function isContainNumber(/* num, digit */) {
-  throw new Error('Not implemented');
+function isContainNumber(num, digit) {
+  const str = String(num);
+  let res = false;
+  for (let i = 0; i < str.length; i += 1)
+    if (str[i] === String(digit)) {
+      res = true;
+      break;
+    }
+  return res;
 }
 
 /**
@@ -273,8 +280,19 @@ function isContainNumber(/* num, digit */) {
  *  [2, 3, 9, 5] => 2       => 2 + 3 === 5 then balance element is 9 and its index = 2
  *  [1, 2, 3, 4, 5] => -1   => no balance element
  */
-function getBalanceIndex(/* arr */) {
-  throw new Error('Not implemented');
+function getBalanceIndex(arr) {
+  let res = -1;
+  let acc1 = 0;
+  for (let i = 0; i < arr.length; i += 1) {
+    acc1 += arr[i];
+    let acc2 = 0;
+    for (let j = arr.length - 1; j > i + 1; j -= 1) acc2 += arr[j];
+    if (acc1 === acc2) {
+      res = i + 1;
+      break;
+    }
+  }
+  return res;
 }
 
 /**
