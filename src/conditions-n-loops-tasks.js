@@ -417,8 +417,37 @@ function sortByAsc(/* arr */) {
  *  '012345', 3 => '024135' => '043215' => '031425'
  *  'qwerty', 3 => 'qetwry' => 'qtrewy' => 'qrwtey'
  */
-function shuffleChar(/* str, iterations */) {
-  throw new Error('Not implemented');
+function shuffleChar(str, iterations) {
+  let l;
+  let r;
+  let full = str;
+  let iterationStr = 0;
+  for (let i = 0; i < iterations; i += 1) {
+    l = '';
+    r = '';
+    for (let j = 0; j < str.length; j += 1) {
+      if (j % 2 === 0) l += full[j];
+      else r += full[j];
+    }
+    full = l + r;
+    if (str === full) {
+      iterationStr = iterations % (i + 1);
+      if (i === iterations - 1) {
+        return full;
+      }
+      break;
+    }
+  }
+  for (let i = 0; i < iterationStr; i += 1) {
+    l = '';
+    r = '';
+    for (let j = 0; j < str.length; j += 1) {
+      if (j % 2 === 0) l += full[j];
+      else r += full[j];
+    }
+    full = l + r;
+  }
+  return full;
 }
 
 /**
@@ -438,8 +467,31 @@ function shuffleChar(/* str, iterations */) {
  * @param {number} number The source number
  * @returns {number} The nearest larger number, or original number if none exists.
  */
-function getNearestBigger(/* number */) {
-  throw new Error('Not implemented');
+function getNearestBigger(number) {
+  const arr = Array.from(String(number), Number);
+  let changeIndex = 0;
+  for (let i = arr.length - 1; i >= 0; i -= 1) {
+    if (arr[i] > arr[i - 1]) {
+      changeIndex = i - 1;
+      break;
+    }
+  }
+  let smallestIndex = changeIndex + 1;
+  if (changeIndex || changeIndex === 0)
+    for (let i = changeIndex + 1; i < arr.length; i += 1)
+      if (arr[i] < arr[smallestIndex] && arr[i] > arr[changeIndex])
+        smallestIndex = i;
+  const newArr = [];
+  const leftArr = [];
+  for (let i = 0; i < arr.length; i += 1) {
+    if (i === changeIndex) newArr.push(arr[smallestIndex]);
+    else if (i === smallestIndex) leftArr.push(arr[changeIndex]);
+    else if (i > changeIndex) leftArr.push(arr[i]);
+    else newArr.push(arr[i]);
+  }
+  leftArr.sort();
+  const res = [...newArr, ...leftArr];
+  return parseInt(res.join(''), 10);
 }
 
 module.exports = {
